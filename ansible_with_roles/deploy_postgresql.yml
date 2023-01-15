@@ -1,0 +1,52 @@
+---
+
+- name: install mysql
+  hosts: db_servers
+  become: yes
+
+  tasks:
+
+  - name: Install All Packeges
+    apt:
+      name:
+       - postgresql
+       - postgresql-contrib
+       - python3-pip
+       - libpq-dev
+      update_cache: yes
+
+  - name: Install psycopg2 using pip
+    pip:
+      name: psycopg2
+
+  - name: Create the database gitbucket
+    become_user: postgres
+    postgresql_db:
+      name: "{{db_name}}"
+      state: present
+
+  - name: Create user
+    become_user: postgres
+    postgresql_user:
+      db: "{{db_name}}"
+      name: "{{db_user}}"
+      password: "{{db_user_password}}"
+      priv: "ALL"
+
+  - name: Allow remote connection to db
+    lineinfile:
+        path: /etc/postgresql/14/main/postgresql.conf
+        line: "listen_addresses = '*'"
+        insertafter: "#listen_addresses = 'localhost'"
+
+  - name: Allow remote connection to db 2
+    lineinfile:
+        path: /etc/postgresql/14/main/pg_hba.conf
+        line: "host  all    all    0.0.0.0/0    md5"
+     #   insertafter: "#listen_addresses = 'localhost'"
+
+  - name: Restart service Tomcat9, in all cases, also issue daemon-reload
+    systemd:
+      name: postgresql
+      state: restarted
+

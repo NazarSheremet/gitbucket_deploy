@@ -1,0 +1,7 @@
+---
+- name: Deploying of GitBucket
+  hosts: app_servers
+  become: yes
+
+  roles:
+    - deploy_app

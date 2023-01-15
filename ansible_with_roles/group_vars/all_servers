@@ -1,0 +1,12 @@
+
+---
+ansible_user     : nazar
+ansible_password : 1111
+ansible_sudo_pass: 1111
+db_ip: 0.0.0.0
+download_url: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.84/bin/apache-tomcat-8.5.84.tar.gz
+
+db_ip: 192.168.13.225
+db_name: gitbucket
+db_user: gitbucket_user
+db_user_password: YOUR_PASSWORD! 

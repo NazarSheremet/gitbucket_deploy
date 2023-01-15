@@ -1,0 +1,49 @@
+
+---
+- name: Deploying of GitBucket
+  hosts: lb_servers
+  become: yes
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name:
+          - nginx
+
+    - name: Deploy war file in Tomcat
+      copy:
+        src: ~/Desktop/default
+        dest: /etc/nginx/sites-available/default
+
+
+#    - name: Configurate Comcat9
+#      shell: |
+#        cat << EOF > /etc/nginx/sites-available/default
+
+#        upstream samplecluster {
+#              server localhost:8080;
+#             #server 192.168.252.186:8080;
+#        }
+
+#        server {
+#            listen   80; # The default is 80 but this here if you want to change it.
+#            server_name gitbucket.example.com;
+#
+#            location / {
+#                proxy_pass             http://samplecluster;
+#                proxy_set_header        Host $host;
+#                proxy_set_header        X-Real-IP $remote_addr;
+#                proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+#                proxy_connect_timeout   150;
+#                proxy_send_timeout      100;
+#                proxy_read_timeout      100;
+#                proxy_buffers           4 32k;
+#                client_max_body_size    500m; # Big number is we can post big commits.
+#                client_body_buffer_size 128k;
+#            }
+#        }
+#        EOF
+    - name: Restart service Tomcat9, in all cases, also issue daemon-reload
+      systemd:
+        name: nginx
+        state: restarted

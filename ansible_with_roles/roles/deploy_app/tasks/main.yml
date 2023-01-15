@@ -1,0 +1,90 @@
+---
+# tasks file for deploy_app
+  - name: Install Java and Tomcat9
+    apt:
+      name:
+        - openjdk-8-jdk
+        - tomcat9
+        - tomcat9-admin
+  - name: Configuration of Tomcat9 
+    shell: |
+      cat << EOF > /var/lib/tomcat9/conf/tomcat-users.xml
+      <?xml version='1.0' encoding='utf-8'?>
+      <tomcat-users xmlns="http://tomcat.apache.org/xml"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
+                version="1.0">
+
+          <user username="ADMIN" password="ADMIN" roles="manager-gui, admin-gui, admin-script" />
+
+      </tomcat-users>
+      EOF
+
+  - name: Create dir for service.d file
+    file:
+      path: /lib/systemd/system/tomcat9.service.d
+      state: directory
+
+  - name: Configure Tomcat9
+    blockinfile:
+      path: /lib/systemd/system/tomcat9.service.d/override.conf
+      create: true
+      block: |
+        [Service]
+        # Configuration
+        EnvironmentFile=/etc/default/tomcat9
+        ReadWritePaths=/var/gitbucket
+
+  - name: Deploy war file in Tomcat
+    copy:
+      src: "{{sourse_folder}}"
+      dest: /var/lib/tomcat9/webapps
+
+  - name: Change permition for WAR file
+    file:
+      path: /var/lib/tomcat9/webapps/gitbucket.war
+      owner: tomcat
+      group: tomcat
+
+  - name: Create directory for project
+    file:
+      path: /var/gitbucket
+      state: directory
+      owner: tomcat
+      group: tomcat
+
+  - name: Insert path for work directory in Tomcat
+    lineinfile:
+      path: /etc/default/tomcat9
+      line: GITBUCKET_HOME=/var/gitbucket
+      create: yes
+  
+  - name: Restart service Tomcat9, in all cases, also issue daemon-reload
+    systemd:
+      name: tomcat9
+      state: restarted
+      daemon_reload: yes
+
+  - name: Change configuration of Database
+    replace:
+      path: /var/gitbucket/database.conf
+      after: 'url = "'
+      before: '"'
+      replace: 'jdbc:postgresql://{{db_ip}}/{{db_name}}'
+      regexp: '^(.+)$'
+
+  - name: Change user
+    replace:
+      path: /var/gitbucket/database.conf
+      after: 'user = "'
+      before: '"'
+      replace: '{{db_user}}'
+      regexp: '^(.+)$'
+      
+  - name: Change password
+    replace:
+      path: /var/gitbucket/database.conf
+      after: 'password = "'
+      before: '"'
+      replace: '{{db_user_password}}'
+      regexp: '^(.+)$'

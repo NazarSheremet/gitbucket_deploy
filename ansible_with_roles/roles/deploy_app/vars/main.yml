@@ -1,0 +1,3 @@
+---
+# vars file for deploy_app
+sourse_folder: ~/gitbucket.war
