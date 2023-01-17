@@ -1,4 +1,5 @@
 upstream samplecluster {
+    ip_hash;
 	server {{app1_ip}}:8080;
 	server {{app2_ip}}:8080;
 	
@@ -9,7 +10,7 @@ server {
     server_name gitbucket.example.com;
     
     location / {
-        proxy_pass             http://samplecluster;
+        proxy_pass              http://samplecluster;
         proxy_set_header        Host $host;
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
