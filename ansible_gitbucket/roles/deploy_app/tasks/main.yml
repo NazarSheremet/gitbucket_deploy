@@ -38,7 +38,7 @@
 
   - name: Deploy war file in Tomcat
     copy:
-      src: "{{sourse_folder}}"
+      src: "{{sourse_file}}"
       dest: /var/lib/tomcat9/webapps
 
   - name: Change permition for WAR file
