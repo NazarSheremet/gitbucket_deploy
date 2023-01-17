@@ -1,5 +1,5 @@
 ---
-- name: Deploying of GitBucket
+- name: Deploying of Loadbalancer
   hosts: lb_servers
   become: yes
 

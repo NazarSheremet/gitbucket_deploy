@@ -1,0 +1,22 @@
+---
+
+- name: Deploying og Postgresql
+  hosts: db_servers
+  become: yes
+
+  roles:
+    - deploy_postgresql
+
+- name: Deploying of GitBucket
+  hosts: app_servers
+  become: yes
+
+  roles:
+    - deploy_app
+
+- name: Deploying of Loadbalancer
+  hosts: lb_servers
+  become: yes
+
+  roles:
+    - deploy_lb

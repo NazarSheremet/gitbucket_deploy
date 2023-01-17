@@ -1,6 +1,6 @@
 ---
 # handlers file for deploy_postgresql
-- name: Restart service Tomcat9, in all cases, also issue daemon-reload
+- name: Restart service postgresql
   systemd:
     name: postgresql
     state: restarted

@@ -1,6 +1,6 @@
 ---
 
-- name: install mysql
+- name: Deploying og Postgresql
   hosts: db_servers
   become: yes
 
