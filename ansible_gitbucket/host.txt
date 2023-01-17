@@ -2,13 +2,13 @@
 test ansible_host=192.168.47.222
 [app_servers]
 #app1 ansible_host=192.168.13.79
-app2 ansible_host=192.168.13.17
+app2 ansible_host=192.168.8.79
 
 [db_servers]
-db ansible_host=192.168.13.225
+db ansible_host=192.168.8.225
 
 [lb_servers]
-lb ansible_host=192.168.13.17
+lb ansible_host=192.168.8.17
 
 [all_servers:children]
 app_servers

@@ -6,6 +6,7 @@
         - openjdk-8-jdk
         - tomcat9
         - tomcat9-admin
+        - postgresql-client
   - name: Configuration of Tomcat9 
     shell: |
       cat << EOF > /var/lib/tomcat9/conf/tomcat-users.xml

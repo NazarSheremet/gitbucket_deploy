@@ -1,0 +1,6 @@
+---
+# handlers file for deploy_lb
+- name: Restart service Tomcat9, in all cases, also issue daemon-reload
+  systemd:
+    name: nginx
+    state: restarted

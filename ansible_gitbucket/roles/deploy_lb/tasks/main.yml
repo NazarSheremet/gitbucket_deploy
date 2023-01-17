@@ -1,0 +1,11 @@
+---
+# tasks file for deploy_lb
+- name: Install Nginx
+  apt:
+    name:
+      - nginx
+
+- name: Deploy war file in Tomcat
+  template:
+    src: default.j2
+    dest: "{{dest_folder}}"

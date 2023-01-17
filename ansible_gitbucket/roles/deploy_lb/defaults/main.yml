@@ -1,0 +1,5 @@
+---
+# defaults file for deploy_lb
+app1_ip: 0.0.0.0
+app2_ip: 0.0.0.1
+dest_folder: /etc/nginx/sites-available/default
