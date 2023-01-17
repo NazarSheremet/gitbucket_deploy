@@ -1,6 +1,6 @@
 ---
 # handlers file for deploy_postgresql
 - name: Restart service postgresql
-  systemd:
+  service:
     name: postgresql
     state: restarted

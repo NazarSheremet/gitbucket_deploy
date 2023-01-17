@@ -1,6 +1,6 @@
 ---
 # handlers file for deploy_lb
 - name: Restart service nxing
-  systemd:
+  service:
     name: nginx
     state: restarted

@@ -1,6 +1,6 @@
 ---
 # handlers file for deploy_app
-- name: Restart service Tomcat9, in all cases, also issue daemon-reload
-  systemd:
+- name: Restart service Tomcat9
+  service:
     name: tomcat9
     state: restarted
