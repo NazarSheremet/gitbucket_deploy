@@ -1,6 +1,6 @@
 
 ---
-ansible_user     : nazar
+ansible_user     : user
 ansible_password : 1111
 ansible_sudo_pass: 1111
 
